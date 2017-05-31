@@ -49,7 +49,7 @@ $(document).ready(function() {
 function activPage(){
     if (valeurConnectionRasp !== "OK"){
         btnCommencer.className = "waves-effect waves-light btn valign disabled btnCommencer";
-		btnShutRasp.className = "waves-effect waves-light btn disabled";
+	btnShutRasp.className = "waves-effect waves-light btn disabled";
         couleurConnectRasp.className = "connexionNO";
         console.log("connexion SSH Raspberry échouée");
     }
@@ -78,6 +78,7 @@ function CalculsMicmac(){
           $.getJSON($SCRIPT_ROOT + '/calculs', {
           }, function(data) {
 			  if(data == true){
+				// s'il y a un problème dans micmac, le bloc suivant s'affiche dans le html
 				texteCalculs.innerHTML = '<i class="material-icons left">report_problem</i> Une erreur est survenue lors des calculs, veulliez recommencer <a onclick="location.reload()" id="btnReload"><i class="material-icons lienLogo">autorenew</i></a>';
 				loader.className = "hide";
 				webcam.className = "hide";
