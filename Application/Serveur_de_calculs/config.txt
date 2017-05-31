@@ -1,0 +1,12 @@
+Emplacement de Micmac
+micmac: /home/lady/micmac/bin
+
+FTP OVH
+loginFTP: ****
+passeFTP: ****
+hoteFTP: ****
+
+SSH Raspberry pi (ip = IPV4)
+loginRasp: ****
+passeRasp: ****
+ipRasp: ****
