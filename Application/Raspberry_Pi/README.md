@@ -2,5 +2,10 @@ Placer le dossier "scripts_python" de préférence dans le répertoire "/home/pi
 
 ------
 Programmes nécessaires :
+- raspistill
 - Python 2.7 :
   - time
+  - RPI.GPIO
+  - os
+  - shutil
+  - Image
