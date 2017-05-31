@@ -1,9 +1,9 @@
-Informations de connexions SSH a la Raspberry Pi
+ Informations de connexions SSH a la Raspberry Pi (ip = IPV4)
 ipRasp: ****
 userNameRasp: ****
 passeRasp: ****
 
-Informations de connexions SSH au serveur de calculs
+Informations de connexions SSH au serveur de calculs (ip = IPV4)
 ipServeur: ****
 userNameServeur: ****
 passeServeur: ****
