@@ -17,10 +17,10 @@ pwm_servo.start(duty_cycle)
 try:
     while True:
         pwm_servo.ChangeDutyCycle(duty_cycle) #le servo se pivote avec la valeur donnee en entree
-        time.sleep(0.01)# on attend un petit moment que le servo finisse son action
-        GPIO.cleanup()# on sort proprement de GPIO et on sort de la fonction avec exit()
+        time.sleep(0.01) # on attend un petit moment que le servo finisse son action
+        GPIO.cleanup() # on sort proprement de GPIO et on sort de la fonction avec exit()
         exit()
 except KeyboardInterrupt:
-    print("CTRL-C: Terminating program.")# si le programme est utilise seul, cela permet de l'eteindre en cas d'urgence
+    print("CTRL-C: Terminating program.") # si le programme est utilise seul, cela permet de l'eteindre en cas d'urgence
 
 
