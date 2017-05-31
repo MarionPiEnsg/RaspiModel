@@ -9,4 +9,3 @@ if os.path.exists(nom):
     shutil.rmtree(nom)
 #on cree un dossier pour y mettre les images et on s'y place
 os.mkdir(nom)
-#os.chdir(nom)
