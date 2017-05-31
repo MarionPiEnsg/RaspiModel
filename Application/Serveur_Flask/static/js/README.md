@@ -1,1 +1,1 @@
-Le fichier JS à mofidier si besoin est le init.js, le reste est la surcouche MaterializeCss
+Le fichier __JS__ à mofidier si besoin est le __init.js__, le reste est la surcouche MaterializeCss
