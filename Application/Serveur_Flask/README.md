@@ -7,3 +7,10 @@ Par exemple:
       - templates/
       - config.txt
       - main.py
+
+-------
+Programmes nécessaires:
+- Python 3.6:
+  - Flask
+  - paramiko
+  - time
