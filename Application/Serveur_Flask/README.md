@@ -1,5 +1,5 @@
 Placer le dossier "Serveur_Flask" dans le localhost de la machine qui sert de serveur pour Flask.
-Par exemple:
+Par exemple :
 - EasyPhp/
   - www/
     - Serveur_Flask/
@@ -9,8 +9,8 @@ Par exemple:
       - main.py
 
 -------
-Programmes nécessaires:
-- Python 3.6:
+Programmes nécessaires :
+- Python 3.6 :
   - Flask
   - paramiko
   - time
