@@ -1,12 +1,12 @@
 Informations de connexions SSH a la Raspberry Pi
-ipRasp: 192.168.43.60
-userNameRasp: pi
-passeRasp: raspberry
+ipRasp: ****
+userNameRasp: ****
+passeRasp: ****
 
 Informations de connexions SSH au serveur de calculs
-ipServeur: 192.168.43.62
-userNameServeur: lady
-passeServeur: hobby-one
+ipServeur: ****
+userNameServeur: ****
+passeServeur: ****
 
 Dossier de travail de la raspberry pi sans le dernier "/"
 cheminTravailPi: /home/pi/Videos
