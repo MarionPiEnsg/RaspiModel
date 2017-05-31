@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+	<title>{{ titre }}</title>
+
+	<!-- CSS  -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link href="{{ url_for('static', filename='css/materialize.css') }}" rel="stylesheet" type="text/css" />
+	<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css" />
+</head>
+<script type="text/javascript">
+
+/* Copyright (C) 2007 Richard Atterer, richardÂ©atterer.net
+   This program is free software; you can redistribute it and/or modify it
+   under the terms of the GNU General Public License, version 2. See the file
+   COPYING for details. */
+
+var imageNr = 0; // Serial number of current image
+var finished = new Array(); // References to img objects which have finished downloading
+var paused = false;
+
+function createImageLayer() {
+  var img = new Image();
+  img.style.position = "absolute";
+  img.style.zIndex = -1;
+  img.onload = imageOnload;
+  img.onclick = imageOnclick;
+  img.src = "http://192.168.43.60:8080/?action=snapshot&n=" + (++imageNr);
+  var webcam = document.getElementById("webcam");
+  webcam.insertBefore(img, webcam.firstChild);
+}
+
+// Two layers are always present (except at the very beginning), to avoid flicker
+function imageOnload() {
+  this.style.zIndex = imageNr; // Image finished, bring to front!
+  while (1 < finished.length) {
+    var del = finished.shift(); // Delete old image(s) from document
+    del.parentNode.removeChild(del);
+  }
+  finished.push(this);
+  if (!paused) createImageLayer();
+}
+
+function imageOnclick() { // Clicking on the image will pause the stream
+  paused = !paused;
+  if (!paused) createImageLayer();
+}
+
+</script>
+<body onload="createImageLayer();">
+
+
+	<script type="text/javascript">
+	  var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+	</script>
+	<nav class="nav" role="navigation">
+		<div class="nav-wrapper container row">
+			<a id="logo-container" class="brand-logo">{{ titre }}</a>
+			<a id="btnReload" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+			<ul class="right hide-on-med-and-down">	
+				<li><a onclick="location.reload()" id="btnReload" class="tooltipped" data-position="bottom" data-delay="50" data-tooltip="Recommencer"><i class="material-icons left">autorenew</i></a></li>	
+			</ul>
+			<ul class="side-nav" id="mobile-demo">
+				<li><a onclick="location.reload()" id="btnReload"><i class="material-icons left">autorenew</i>Recommencer</a></li>
+				<li><a id="btnShutRasp"><i class="material-icons left">cloud_off</i>Eteindre Pi</a></li>
+			</ul>
+		</div>
+		
+	</nav>
+
+	<div class="boite container">
+		<p class="titre-boite" id="titreCapture"><b><u>Capture des images</u></b></p>
+		<div class="row sousBoite" id="boiteCommencer">
+ 			<div class="col s12 m3 l3 right-align duree valign-wrapper texteDuree"><p class="valign">Durée de l'acquisition:</p></div>
+			<div class="input-field col s12 m3 l3 duree">
+					<select name="choix" id="choix">
+					  <option value="5">5 secondes</option>
+					  <option value="10">10 secondes</option>
+					  <option value="15">15 secondes</option>
+					</select>
+			</div>
+			<div class="btncentrerVertical col s12 m6 l6 valign-wrapper">
+				<a id="btnCommencer" class="btn waves-effect waves-light btnCommencer"><i class="material-icons left">add_a_photo</i>Commencer</a>
+			</div>
+		</div>
+		<p class="hide" id="paragrapheDebutAcqui">Début de l'acquisition dans <b id="SecAvantAcquisition"></b> secondes</p>
+		<div class="hide" id="acquisition">
+			<p id="paragrapheTempsRestant">Fin de l'acquisition dans <b id="SecFinAcquisition">...</b> secondes</p>
+		</div>
+		<div id="blocWebcam">
+			<div id="flecheHaut" class="center-align flecheHaut"><a id="btnHaut" class="btn waves-effect waves-light"><i class="material-icons center">keyboard_arrow_up</i></a></div>
+			<div class="row">
+				<div id="blocChoixVitesse" class="blocChoixVitesse input-field col s2 m2">
+					<select name="choixVitesse" id="choixVitesse" onchange="vitesse()">
+					  <option value="2">Normal</option>
+					  <option value="3">Rapide</option>
+					  <option value="1">Lent</option>
+					</select>
+					<label>Vitesse caméra</label>
+				</div>
+				<div  id="flecheGauche" class="col s1 m1"><a id="btnGauche" class="btnDroiteGauche btn waves-effect waves-light"><i class="material-icons right">keyboard_arrow_left</i></a></div>
+				<div id="webcam" class="col s1 m4 offset-m1"><img src="http://192.168.43.60:8080/?action=snapshot" /></div>
+				<div id="flecheDroite" class="col s1 m1 offset-m1"><a id="btnDroite" class="btnDroiteGauche btn waves-effect waves-light"><i class="material-icons left">keyboard_arrow_right</i></a></div>
+			</div>
+			<div id="flecheBas" class="center-align"><a id="btnBas" class=" btn waves-effect waves-light"><i class="material-icons center">keyboard_arrow_down</i></a></div>
+		</div>
+		<div id="delai">
+			<input type="checkbox" class="filled-in" id="filled-in-box" checked="checked" />
+			<label for="filled-in-box">Délai de 10 secondes avant le début de l'acquisition</label>
+		</div>
+		<div class="hide" id="calculs">
+			<p class="titre-boite"><b><u>Calcul du modèle 3D</u></b></p>
+			<p id="texteCalculs">Fin de l'acquisition<br>Calculs en cours</p>
+			<div id="loader" class="preLoader">
+				<div id="loader" class="loader"></div>
+			</div>
+		</div>
+		
+		<div class="hide" id="enjoy">
+			<p class="titre-boite"><b><u>Enjoy!</u></b></p>
+			<p>Fin des calculs</p>
+			<a href="http://raspberry.marion-charpentier.fr/nuage/nuage.html" target="_blank" class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Visualiser</a><br><br>
+			<a href="http://raspberry.marion-charpentier.fr/nuage.ply.xyz" id="btnTelechargement"class="waves-effect waves-light btn"><i class="material-icons left">cloud</i>Télécharger</a>
+		</div>
+	</div>	
+	
+	<footer class="page-footer">
+		<div class="footer-copyright">
+			<div class="row-footer row">
+				<div class="col s12 m6 l6 offset-s1">
+					Créé par Marion CHARPENTIER avec <a class="teal-text text-lighten-3" href="http://flask.pocoo.org/">Flask</a>, <a class="teal-text text-lighten-3" href="http://materializecss.com">Materialize</a>, <a class="teal-text text-lighten-3" href="http://micmac.ensg.eu">MicMac</a> et <a class="teal-text text-lighten-3" href="http://potree.org/">Potree</a>.<br>
+					Master 1 Géomatique ENSG-UPEM.
+				</div>
+				<div class="col s12 m3 l3 right-align">
+					<p class="pFooterConnect" id="ConnectRasp">Connexion à la Raspberry Pi : <b id ="couleurConnectRasp" class="">{{ ConnectRasp }}</b></p>
+					<p class="pFooterConnect" id="ConnectServ">Connexion au serveur de calculs : <b id ="couleurConnectServ" class="">{{ ConnectServ }}</b></p>				
+				</div>
+				<div class="col s2 m2 l2 center">
+					<a id="btnShutRasp" class="btn waves-effect waves-light" style="text-transform: none;"><i class="material-icons left">cloud_off</i>Eteindre Pi</a>
+				</div>
+			</div>
+		</div>
+	</footer>
+	
+	
+	<!--  Scripts-->
+	<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+	<script src="{{ url_for('static', filename='js/materialize.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/init.js') }}" ></script>
+	
+	</body>
+</html>
